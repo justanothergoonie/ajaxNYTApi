@@ -41,18 +41,27 @@ var Main = /*#__PURE__*/function () {
   }, {
     key: "handleResults",
     value: function handleResults(results) {
+      var allResultsEl = document.querySelector('.results');
+      allResultsEl.textContent = ' ';
+
       for (var r in results.detail) {
-        var allResultsEl = document.querySelector('.results');
+        //
         var resultsEl = document.createElement('li');
         allResultsEl.appendChild(resultsEl); //
 
         var sectionEl = document.createElement('span');
         resultsEl.appendChild(sectionEl);
         sectionEl.textContent = results.detail[r].section_name; //
+        //
 
+        var linkEl = document.createElement('a');
+        resultsEl.appendChild(linkEl);
         var headlineEl = document.createElement('h2');
-        resultsEl.appendChild(headlineEl);
+        linkEl.appendChild(headlineEl);
+        linkEl.setAttribute('href', results.detail[r].web_url);
+        linkEl.setAttribute('target', '_blank');
         headlineEl.textContent = results.detail[r].headline.main; //
+        //
 
         var snippetEl = document.createElement('p');
         resultsEl.appendChild(snippetEl);
