@@ -1,6 +1,14 @@
+$breakpoint-tablet: 768px;
+
 @mixin flex-center {
 	display: flex;
 	align-content: center;
 	align-items: center;
 	justify-content: center;
+}
+
+@mixin bp-med {
+	@media screen and (min-width: $breakpoint-tablet) {
+		@content;
+	}
 }

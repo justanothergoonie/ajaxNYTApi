@@ -101,7 +101,7 @@ class Main {
 				);
 			}
 		}
-		console.log(results.detail);
+		// console.log(results.detail);
 	}
 
 	handleSearchError(error) {}

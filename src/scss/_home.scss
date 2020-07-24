@@ -11,12 +11,18 @@ ul {
 	flex-direction: column;
 	li {
 		@include flex-center;
-		flex-direction: row;
+		flex-direction: column;
 		width: 75%;
 		padding: 10px;
 		border: solid 1px black;
+		@include bp-med {
+			flex-direction: row;
+		}
 		.article-Container {
-			width: 70%;
+			width: 90%;
+			@include bp-med {
+				width: 70%;
+			}
 			a {
 				text-decoration: none;
 				color: black;
@@ -40,13 +46,17 @@ ul {
 		}
 		img {
 			object-fit: cover;
-			min-width: 250px;
+			min-width: 90%;
 			min-height: 250px;
 			max-width: 250px;
 			max-height: 250px;
 			border: solid 1px black;
-			margin-left: 20px;
+
 			background-color: #eee;
+			@include bp-med {
+				margin-left: 20px;
+				min-width: 250px;
+			}
 		}
 	}
 }

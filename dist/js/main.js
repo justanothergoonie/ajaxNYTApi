@@ -105,9 +105,8 @@ var Main = /*#__PURE__*/function () {
         for (var m in results.detail[r].multimedia) {
           imgEl.setAttribute('src', 'https://www.nytimes.com/' + results.detail[r].multimedia[m].url);
         }
-      }
+      } // console.log(results.detail);
 
-      console.log(results.detail);
     }
   }, {
     key: "handleSearchError",

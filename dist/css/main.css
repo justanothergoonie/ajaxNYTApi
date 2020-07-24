@@ -159,14 +159,26 @@ ul li {
 	align-content: center;
 	align-items: center;
 	justify-content: center;
-	flex-direction: row;
+	flex-direction: column;
 	width: 75%;
 	padding: 10px;
 	border: solid 1px black;
 }
 
+@media screen and (min-width: 768px) {
+	ul li {
+		flex-direction: row;
+	}
+}
+
 ul li .article-Container {
-	width: 70%;
+	width: 90%;
+}
+
+@media screen and (min-width: 768px) {
+	ul li .article-Container {
+		width: 70%;
+	}
 }
 
 ul li .article-Container a {
@@ -196,13 +208,19 @@ ul li .byLine-Date-Container span {
 ul li img {
 	-o-object-fit: cover;
 	   object-fit: cover;
-	min-width: 250px;
+	min-width: 90%;
 	min-height: 250px;
 	max-width: 250px;
 	max-height: 250px;
 	border: solid 1px black;
-	margin-left: 20px;
 	background-color: #eee;
+}
+
+@media screen and (min-width: 768px) {
+	ul li img {
+		margin-left: 20px;
+		min-width: 250px;
+	}
 }
 
 /*# sourceMappingURL=main.css.map */
