@@ -71,8 +71,13 @@ class Main {
 			//
 			const imgEl = document.createElement('img');
 			resultsEl.appendChild(imgEl);
-
-			imgEl.setAttribute('src', results.detail[r].multimedia.url);
+			for (let m in results.detail[r].multimedia) {
+				imgEl.setAttribute(
+					'src',
+					'https://www.nytimes.com/' +
+						results.detail[r].multimedia[m].url
+				);
+			}
 
 			//
 		}

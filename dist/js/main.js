@@ -78,7 +78,11 @@ var Main = /*#__PURE__*/function () {
 
         var imgEl = document.createElement('img');
         resultsEl.appendChild(imgEl);
-        imgEl.setAttribute('src', results.detail[r].multimedia.url); //
+
+        for (var m in results.detail[r].multimedia) {
+          imgEl.setAttribute('src', 'https://www.nytimes.com/' + results.detail[r].multimedia[m].url);
+        } //
+
       }
 
       console.log(results.detail);
