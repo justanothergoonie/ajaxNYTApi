@@ -20,10 +20,15 @@ class Main {
 		//
 		const queryEl = document.querySelector('[name="query"]');
 		const queryTerm = queryEl.value;
+
 		console.log('searching...', queryTerm);
 
 		const api = new NytApi();
-		api.search(queryTerm);
+		if (queryTerm === '') {
+			alert('You need to search for something');
+		} else {
+			api.search(queryTerm);
+		}
 	}
 
 	handleResults(results) {
@@ -34,20 +39,28 @@ class Main {
 			//
 			const resultsEl = document.createElement('li');
 			allResultsEl.appendChild(resultsEl);
-
+			//
+			const articleContainer = document.createElement('div');
+			articleContainer.setAttribute('class', 'article-Container');
+			resultsEl.appendChild(articleContainer);
+			//
+			const aboutArticleContainer = document.createElement('div');
+			aboutArticleContainer.setAttribute(
+				'class',
+				'about-Article-Container)'
+			);
+			articleContainer.appendChild(aboutArticleContainer);
 			//
 			const sectionEl = document.createElement('span');
-			resultsEl.appendChild(sectionEl);
+			aboutArticleContainer.appendChild(sectionEl);
 			sectionEl.textContent = results.detail[r].section_name;
 			//
 
 			//
 			const linkEl = document.createElement('a');
-			resultsEl.appendChild(linkEl);
+			aboutArticleContainer.appendChild(linkEl);
 			const headlineEl = document.createElement('h2');
-
 			linkEl.appendChild(headlineEl);
-
 			linkEl.setAttribute('href', results.detail[r].web_url);
 			linkEl.setAttribute('target', '_blank');
 			headlineEl.textContent = results.detail[r].headline.main;
@@ -55,15 +68,24 @@ class Main {
 
 			//
 			const snippetEl = document.createElement('p');
-			resultsEl.appendChild(snippetEl);
+			aboutArticleContainer.appendChild(snippetEl);
 			snippetEl.textContent = results.detail[r].snippet;
 			//
+			const byLineDateContainer = document.createElement('div');
+			byLineDateContainer.setAttribute('class', 'byLine-Date-Container');
+			articleContainer.appendChild(byLineDateContainer);
+
+			//
 			const bylineEl = document.createElement('span');
-			resultsEl.appendChild(bylineEl);
-			bylineEl.textContent = results.detail[r].byline.original + ' ';
+			byLineDateContainer.appendChild(bylineEl);
+			if (results.detail[r].byline.original === null) {
+				bylineEl.innerText === 'NYT';
+			} else {
+				bylineEl.textContent = results.detail[r].byline.original + ' ';
+			}
 			//
 			const dateEl = document.createElement('span');
-			resultsEl.appendChild(dateEl);
+			byLineDateContainer.appendChild(dateEl);
 			new Date(results.detail[r].pub_date).toDateString();
 			dateEl.textContent = new Date(
 				results.detail[r].pub_date
@@ -78,8 +100,6 @@ class Main {
 						results.detail[r].multimedia[m].url
 				);
 			}
-
-			//
 		}
 		console.log(results.detail);
 	}

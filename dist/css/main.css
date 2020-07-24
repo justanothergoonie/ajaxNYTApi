@@ -134,4 +134,75 @@ table {
 	border-spacing: 0;
 }
 
+form {
+	display: flex;
+	align-content: center;
+	align-items: center;
+	justify-content: center;
+}
+
+form input {
+	width: 170px;
+	margin: 10px;
+}
+
+ul {
+	display: flex;
+	align-content: center;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+ul li {
+	display: flex;
+	align-content: center;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	width: 75%;
+	padding: 10px;
+	border: solid 1px black;
+}
+
+ul li .article-Container {
+	width: 70%;
+}
+
+ul li .article-Container a {
+	text-decoration: none;
+	color: black;
+}
+
+ul li .article-Container a h2 {
+	font-size: 2rem;
+	padding: 10px 0px;
+}
+
+ul li .article-Container p {
+	font-size: 1.2rem;
+	padding-bottom: 10px;
+}
+
+ul li .byLine-Date-Container {
+	display: flex;
+	flex-direction: column;
+}
+
+ul li .byLine-Date-Container span {
+	padding: 5px 0px;
+}
+
+ul li img {
+	-o-object-fit: cover;
+	   object-fit: cover;
+	min-width: 250px;
+	min-height: 250px;
+	max-width: 250px;
+	max-height: 250px;
+	border: solid 1px black;
+	margin-left: 20px;
+	background-color: #eee;
+}
+
 /*# sourceMappingURL=main.css.map */

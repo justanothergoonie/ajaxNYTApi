@@ -36,7 +36,12 @@ var Main = /*#__PURE__*/function () {
       var queryTerm = queryEl.value;
       console.log('searching...', queryTerm);
       var api = new NytApi();
-      api.search(queryTerm);
+
+      if (queryTerm === '') {
+        alert('You need to search for something');
+      } else {
+        api.search(queryTerm);
+      }
     }
   }, {
     key: "handleResults",
@@ -49,13 +54,21 @@ var Main = /*#__PURE__*/function () {
         var resultsEl = document.createElement('li');
         allResultsEl.appendChild(resultsEl); //
 
+        var articleContainer = document.createElement('div');
+        articleContainer.setAttribute('class', 'article-Container');
+        resultsEl.appendChild(articleContainer); //
+
+        var aboutArticleContainer = document.createElement('div');
+        aboutArticleContainer.setAttribute('class', 'about-Article-Container)');
+        articleContainer.appendChild(aboutArticleContainer); //
+
         var sectionEl = document.createElement('span');
-        resultsEl.appendChild(sectionEl);
+        aboutArticleContainer.appendChild(sectionEl);
         sectionEl.textContent = results.detail[r].section_name; //
         //
 
         var linkEl = document.createElement('a');
-        resultsEl.appendChild(linkEl);
+        aboutArticleContainer.appendChild(linkEl);
         var headlineEl = document.createElement('h2');
         linkEl.appendChild(headlineEl);
         linkEl.setAttribute('href', results.detail[r].web_url);
@@ -64,15 +77,25 @@ var Main = /*#__PURE__*/function () {
         //
 
         var snippetEl = document.createElement('p');
-        resultsEl.appendChild(snippetEl);
+        aboutArticleContainer.appendChild(snippetEl);
         snippetEl.textContent = results.detail[r].snippet; //
 
+        var byLineDateContainer = document.createElement('div');
+        byLineDateContainer.setAttribute('class', 'byLine-Date-Container');
+        articleContainer.appendChild(byLineDateContainer); //
+
         var bylineEl = document.createElement('span');
-        resultsEl.appendChild(bylineEl);
-        bylineEl.textContent = results.detail[r].byline.original + ' '; //
+        byLineDateContainer.appendChild(bylineEl);
+
+        if (results.detail[r].byline.original === null) {
+          bylineEl.innerText === 'NYT';
+        } else {
+          bylineEl.textContent = results.detail[r].byline.original + ' ';
+        } //
+
 
         var dateEl = document.createElement('span');
-        resultsEl.appendChild(dateEl);
+        byLineDateContainer.appendChild(dateEl);
         new Date(results.detail[r].pub_date).toDateString();
         dateEl.textContent = new Date(results.detail[r].pub_date).toDateString(); //
 
@@ -81,8 +104,7 @@ var Main = /*#__PURE__*/function () {
 
         for (var m in results.detail[r].multimedia) {
           imgEl.setAttribute('src', 'https://www.nytimes.com/' + results.detail[r].multimedia[m].url);
-        } //
-
+        }
       }
 
       console.log(results.detail);

@@ -1,0 +1,52 @@
+form {
+	@include flex-center;
+	input {
+		width: 170px;
+		margin: 10px;
+	}
+}
+
+ul {
+	@include flex-center;
+	flex-direction: column;
+	li {
+		@include flex-center;
+		flex-direction: row;
+		width: 75%;
+		padding: 10px;
+		border: solid 1px black;
+		.article-Container {
+			width: 70%;
+			a {
+				text-decoration: none;
+				color: black;
+
+				h2 {
+					font-size: 2rem;
+					padding: 10px 0px;
+				}
+			}
+			p {
+				font-size: 1.2rem;
+				padding-bottom: 10px;
+			}
+		}
+		.byLine-Date-Container {
+			display: flex;
+			flex-direction: column;
+			span {
+				padding: 5px 0px;
+			}
+		}
+		img {
+			object-fit: cover;
+			min-width: 250px;
+			min-height: 250px;
+			max-width: 250px;
+			max-height: 250px;
+			border: solid 1px black;
+			margin-left: 20px;
+			background-color: #eee;
+		}
+	}
+}
