@@ -12,12 +12,29 @@
 
 	<body>
 		<form action="">
-			<input
-				type="text"
-				name="query"
-				placeholder="Search The New York Times"
-			/>
-			<button type="submit" name="search">Search</button>
+			<div class="baseForm">
+				<input
+					type="text"
+					name="query"
+					value="france"
+					placeholder="Search The New York Times"
+				/>
+				<button type="submit" name="search">Search</button>
+			</div>
+			<div class="dateFields">
+				<input
+					type="text"
+					name="startDate"
+					placeholder="Start Date"
+					value="7/29/2019"
+				/>
+				<input type="text" name="endDate" placeholder="End Date" />
+				<select name="sort" id="">
+					<option value="newest">Newest</option>
+					<option value="oldest">Oldest</option>
+					<option value="relevance">Relevance</option>
+				</select>
+			</div>
 		</form>
 		<hr />
 		<ul class="results"></ul>

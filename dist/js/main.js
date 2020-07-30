@@ -6,10 +6,97 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 var Main = /*#__PURE__*/function () {
   function Main() {
+    var _this = this;
+
     _classCallCheck(this, Main);
+
+    _defineProperty(this, "reformatDate", function (dateString) {
+      if (dateString == null || dateString == '') {
+        return null;
+      }
+
+      var matched = dateString.match(/^(0?[1-9]|1[0-2])\W(3[01]|[12][0-9]|0?[1-9])\W?(\d*?)$/);
+      console.log('matched', matched);
+      var year = matched[3];
+
+      if (year.length == 0) {
+        year = new Date().getFullYear();
+      } else if (year.length == 2) {
+        year = "20".concat(year);
+      } else if (year.length != 4) {
+        return null;
+      }
+
+      var testDate = new Date(year, parseInt(matched[1]) - 1, matched[2]);
+      console.log('testDate', testDate);
+
+      if (testDate == null) {
+        return null;
+      }
+
+      var mm = matched[1];
+
+      if (mm.length == 1) {
+        mm = "0".concat(mm);
+      }
+
+      var dd = matched[2];
+
+      if (dd.length == 1) {
+        dd = "0".concat(dd);
+      }
+
+      var formattedDate = "".concat(year).concat(mm).concat(dd);
+      console.log('formattedDate', formattedDate);
+      return formattedDate;
+    });
+
+    _defineProperty(this, "handleSearch", function (event) {
+      event.preventDefault(); //
+
+      var queryEl = document.querySelector('[name="query"]');
+      var queryTerm = queryEl.value;
+      var startDateEl = document.querySelector('[name="startDate"]');
+      var startDateOrig = startDateEl.value;
+
+      var startDate = _this.reformatDate(startDateOrig);
+
+      var endDateEl = document.querySelector('[name="endDate"]');
+      var endDateOrig = endDateEl.value;
+
+      var endDate = _this.reformatDate(endDateOrig);
+
+      var sortOptionsEl = document.querySelector('[name="sort"]');
+
+      for (var option in sortOptionsEl) {
+        console.log(sortOptionsEl[option].value);
+      } // console.log('sortOptionsEl', sortOptionsEl[1].value);
+
+
+      var searchOptions = {};
+
+      if (startDate != null) {
+        searchOptions.begin_date = startDate;
+      }
+
+      if (endDate != null) {
+        searchOptions.end_date = endDate;
+      }
+
+      console.log('searching...', queryTerm, searchOptions);
+      var api = new NytApi();
+
+      if (queryTerm === '') {
+        alert('You need to search for something');
+      } else {
+        api.search(queryTerm, searchOptions);
+      }
+    });
 
     // the flow
     //1. set up form event listener(s) that will make the API calls
@@ -27,22 +114,17 @@ var Main = /*#__PURE__*/function () {
       bodyEl.addEventListener('got-results', this.handleResults);
       bodyEl.addEventListener('got-error', this.handleSearchError);
     }
-  }, {
-    key: "handleSearch",
-    value: function handleSearch(event) {
-      event.preventDefault(); //
+    /**
+     * Takes a string value input by a user and converts it to the
+     * format expected by the NYT API e.g. YYYYMMDD
+     *
+     * If the value is empty, or is an invalid date, return null.
+     *
+     * Allowable input formats: mm/dd/yyyy, mm/dd/yy (will prefix year with 20)
+     * 							mm/dd (will assume the current year)
+     * 							mm.dd.yyyy, mm-dd-yyyy (and similar variations)
+     */
 
-      var queryEl = document.querySelector('[name="query"]');
-      var queryTerm = queryEl.value;
-      console.log('searching...', queryTerm);
-      var api = new NytApi();
-
-      if (queryTerm === '') {
-        alert('You need to search for something');
-      } else {
-        api.search(queryTerm);
-      }
-    }
   }, {
     key: "handleResults",
     value: function handleResults(results) {
@@ -96,7 +178,7 @@ var Main = /*#__PURE__*/function () {
 
         var dateEl = document.createElement('span');
         byLineDateContainer.appendChild(dateEl);
-        new Date(results.detail[r].pub_date).toDateString();
+        new Date(results.detail[r].pub_date.slice(0, 19));
         dateEl.textContent = new Date(results.detail[r].pub_date).toDateString(); //
 
         var imgEl = document.createElement('img');

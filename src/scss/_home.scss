@@ -1,8 +1,16 @@
 form {
 	@include flex-center;
-	input {
-		width: 170px;
-		margin: 10px;
+	flex-direction: column;
+	.baseForm {
+		input {
+			width: 170px;
+			margin: 10px 0px;
+		}
+	}
+	.dateFields {
+		input {
+			width: 80px;
+		}
 	}
 }
 

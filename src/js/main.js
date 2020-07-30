@@ -15,21 +15,90 @@ class Main {
 		bodyEl.addEventListener('got-error', this.handleSearchError);
 	}
 
-	handleSearch(event) {
+	/**
+	 * Takes a string value input by a user and converts it to the
+	 * format expected by the NYT API e.g. YYYYMMDD
+	 *
+	 * If the value is empty, or is an invalid date, return null.
+	 *
+	 * Allowable input formats: mm/dd/yyyy, mm/dd/yy (will prefix year with 20)
+	 * 							mm/dd (will assume the current year)
+	 * 							mm.dd.yyyy, mm-dd-yyyy (and similar variations)
+	 */
+
+	reformatDate = (dateString) => {
+		if (dateString == null || dateString == '') {
+			return null;
+		}
+
+		const matched = dateString.match(
+			/^(0?[1-9]|1[0-2])\W(3[01]|[12][0-9]|0?[1-9])\W?(\d*?)$/
+		);
+		console.log('matched', matched);
+
+		let year = matched[3];
+		if (year.length == 0) {
+			year = new Date().getFullYear();
+		} else if (year.length == 2) {
+			year = `20${year}`;
+		} else if (year.length != 4) {
+			return null;
+		}
+
+		const testDate = new Date(year, parseInt(matched[1]) - 1, matched[2]);
+		console.log('testDate', testDate);
+		if (testDate == null) {
+			return null;
+		}
+
+		let mm = matched[1];
+		if (mm.length == 1) {
+			mm = `0${mm}`;
+		}
+		let dd = matched[2];
+		if (dd.length == 1) {
+			dd = `0${dd}`;
+		}
+		let formattedDate = `${year}${mm}${dd}`;
+		console.log('formattedDate', formattedDate);
+		return formattedDate;
+	};
+	handleSearch = (event) => {
 		event.preventDefault();
 		//
 		const queryEl = document.querySelector('[name="query"]');
 		const queryTerm = queryEl.value;
 
-		console.log('searching...', queryTerm);
+		const startDateEl = document.querySelector('[name="startDate"]');
+		const startDateOrig = startDateEl.value;
+		const startDate = this.reformatDate(startDateOrig);
 
+		const endDateEl = document.querySelector('[name="endDate"]');
+		const endDateOrig = endDateEl.value;
+		const endDate = this.reformatDate(endDateOrig);
+
+		const sortOptionsEl = document.querySelector('[name="sort"]');
+		for (let option in sortOptionsEl) {
+			console.log(sortOptionsEl[option].value);
+		}
+		// console.log('sortOptionsEl', sortOptionsEl[1].value);
+
+		const searchOptions = {};
+		if (startDate != null) {
+			searchOptions.begin_date = startDate;
+		}
+		if (endDate != null) {
+			searchOptions.end_date = endDate;
+		}
+
+		console.log('searching...', queryTerm, searchOptions);
 		const api = new NytApi();
 		if (queryTerm === '') {
 			alert('You need to search for something');
 		} else {
-			api.search(queryTerm);
+			api.search(queryTerm, searchOptions);
 		}
-	}
+	};
 
 	handleResults(results) {
 		const allResultsEl = document.querySelector('.results');
@@ -86,7 +155,7 @@ class Main {
 			//
 			const dateEl = document.createElement('span');
 			byLineDateContainer.appendChild(dateEl);
-			new Date(results.detail[r].pub_date).toDateString();
+			new Date(results.detail[r].pub_date.slice(0, 19));
 			dateEl.textContent = new Date(
 				results.detail[r].pub_date
 			).toDateString();

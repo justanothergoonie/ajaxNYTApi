@@ -7,12 +7,13 @@ class NytApi {
 
 	constructor() {}
 
-	search(term) {
+	search(term, options = {}) {
 		axios
 			.get(this.API_URL_BASE, {
 				params: {
 					'api-key': this.API_KEY,
 					q: term,
+					...options,
 				},
 			})
 			.then(this.handleResponse)
