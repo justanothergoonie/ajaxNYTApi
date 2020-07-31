@@ -78,10 +78,7 @@ class Main {
 		const endDate = this.reformatDate(endDateOrig);
 
 		const sortOptionsEl = document.querySelector('[name="sort"]');
-		for (let option in sortOptionsEl) {
-			console.log(sortOptionsEl[option].value);
-		}
-		// console.log('sortOptionsEl', sortOptionsEl[1].value);
+		const sortOptionOrig = sortOptionsEl.value;
 
 		const searchOptions = {};
 		if (startDate != null) {
@@ -90,6 +87,7 @@ class Main {
 		if (endDate != null) {
 			searchOptions.end_date = endDate;
 		}
+		searchOptions.sort = sortOptionOrig;
 
 		console.log('searching...', queryTerm, searchOptions);
 		const api = new NytApi();

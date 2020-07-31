@@ -72,12 +72,7 @@ var Main = /*#__PURE__*/function () {
       var endDate = _this.reformatDate(endDateOrig);
 
       var sortOptionsEl = document.querySelector('[name="sort"]');
-
-      for (var option in sortOptionsEl) {
-        console.log(sortOptionsEl[option].value);
-      } // console.log('sortOptionsEl', sortOptionsEl[1].value);
-
-
+      var sortOptionOrig = sortOptionsEl.value;
       var searchOptions = {};
 
       if (startDate != null) {
@@ -88,6 +83,7 @@ var Main = /*#__PURE__*/function () {
         searchOptions.end_date = endDate;
       }
 
+      searchOptions.sort = sortOptionOrig;
       console.log('searching...', queryTerm, searchOptions);
       var api = new NytApi();
 
